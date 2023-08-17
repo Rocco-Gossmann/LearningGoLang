@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <script type="text/javascript" src="./wasm_exec.js"></script>
+    <script defer>
+        if(WebAssembly) {
+
+            if (!WebAssembly.instantiateStreaming) { // polyfill
+                WebAssembly.instantiateStreaming = async (resp, importObject) => {
+                    const source = await (await resp).arrayBuffer();
+                    return await WebAssembly.instantiate(source, importObject);
+                };
+            }
+    
+            (async function(){
+                const go = new Go();
+                const gowasm = await WebAssembly.instantiateStreaming(fetch("./main.wasm"), go.importObject)      
+
+                if(!gowasm) {
+                    console.error("failed to instantiate gowasm", go, gowasm);
+                    alert("technical error");
+                }
+
+                await go.run(gowasm.instance);
+            })()
+        }
+        else alert("Your Browser does not support WebAssembly");
+    </script>
+
+</head>
+
+<body>
+
+</body>
+
+
+</html>
