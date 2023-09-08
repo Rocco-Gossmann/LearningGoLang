@@ -30,20 +30,24 @@ func giveMeANumber_5WillPanic(checkA, checkB uint) (int, int, bool) {
 
     // Defining some vars for the return (Since this function has no named returns)
     //------------------------------------------------------
-    a,b,ok := -1,-1,false; 
-            // /\-- Default Values (Serve no purpouse but to demonstrate that
-            //      That in a function without named returns, it does not 
-            //      matter what the return values are
+    a,b,ok := -1,-1,true; 
+            // /\-- Default Values serve no purpouse but to demonstrate that
+            //      in a function without named returns, that experienced a panic 
+            //      it does not matter what the return values are
+            //   
+            //      only if NO panic happened will these 3 values be returned
+            //      So we can set ok to true here, but the function will only 
+            //      return ok if no panic happens 
+            //
+            //      otherwise it returns false because
+            //      that is the default value for undefined bool types.
 
     a = int(youMayPanicNow(checkA))
     b = int(youMayPanicNow(checkB))
 
-    ok = true;  // <-- Now that there is no chance of anything panicing anymore,
-                //     Set ok to true 
-
-    return a, b, ok // <-- The return step is skipped during a panic so everything
-                    //     All paremters defined in the function return signature are set 
-                    //     to their default value
+    return a, b, ok // <-- The return step is skipped during a panic
+                    //     So all paremters defined in the function return-
+                    //     signature are set to their default value
 }
 
 func giveMeANumber_5WillPanic_RecoveryViaNamedReturns(checkA, checkB uint) (a int, b int, ok bool) {
