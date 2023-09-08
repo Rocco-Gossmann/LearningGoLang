@@ -1,19 +1,20 @@
 package main
 
 type Color uint8
-const (
-    Red Color = iota 
-    Green
-    Blue
+var (
+    Red   Color = 1
+    Green Color = 2
+    Blue  Color = 3
 )
 
-const NotAColor uint8 = 128;
+var NotAColor uint8 = 128;
 
-func giveMeAColor(c Color) {}  
+func giveMeAColor(c *Color) { }  
 
 func main() {
 
-    giveMeAColor(Red);
-    giveMeAColor(NotAColor);
+    giveMeAColor(&Red);
+    giveMeAColor(&NotAColor);
+    giveMeAColor(&Color(128));
 
 }
